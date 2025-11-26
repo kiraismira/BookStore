@@ -46,26 +46,66 @@ void addBook()
     double price;
     int qty;
 
-    cout << "Назва книги: ";
-    getline(cin, title);
-    if (isDuplicate(title))
+    // Перевірка назви книги
+    do
     {
-        cout << "Помилка: така книга вже існує!\n";
-        return;
-    }
+        cout << "Назва книги: ";
+        getline(cin, title);
 
-    cout << "Автор: ";
-    getline(cin, author);
-    cout << "Категорія: ";
-    getline(cin, category);
+        if (title.empty())
+        {
+            cout << "Назва книги не може бути порожньою\n";
+            continue;
+        }
 
+        if (isDuplicate(title))
+        {
+            cout << "Помилка: така книга вже існує!\n";
+            title = ""; // щоб повторити запит
+        }
+
+    } while (title.empty());
+
+    // Перевірка автора
+    do
+    {
+        cout << "Автор: ";
+        getline(cin, author);
+        if (author.empty())
+            cout << "Автор не може бути порожнім\n";
+    } while (author.empty());
+
+    // Перевірка категорії
+    do
+    {
+        cout << "Категорія: ";
+        getline(cin, category);
+        if (category.empty())
+            cout << "Категорія не може бути порожньою.\n";
+    } while (category.empty());
+
+    // Ціна
     do
     {
         cout << "Ціна: ";
         cin >> price;
-        if (price <= 0) cout << "Ціна має бути більшою за 0!\n";
+
+        if (!cin || price <= 0) {
+            cin.clear();
+            while (cin.get() != '\n');
+            cout << "Ціна має бути більшою за 0! Спробуйте ще раз: ";
+            cin >> price;
+        }
+
+        if (price <= 0)
+        {
+            cout << "Ціна має бути більшою за 0!\n";
+        }
+
     } while (price <= 0);
 
+
+    // Кількість
     do
     {
         cout << "Кількість: ";
@@ -118,20 +158,77 @@ void editBook()
 
     int i = index - 1;
     cin.ignore();
+    double newPrice;
 
-    cout << "Нова назва: ";
-    getline(cin, titles[i]);
-    cout << "Новий автор: ";
-    getline(cin, authors[i]);
-    cout << "Нова категорія: ";
-    getline(cin, categories[i]);
-    cout << "Нова ціна: ";
-    cin >> prices[i];
-    cout << "Нова кількість: ";
-    cin >> quantities[i];
+    // Перевірка нової назви
+    do
+    {
+        cout << "Нова назва: ";
+        getline(cin, titles[i]);
+
+        if (titles[i].empty())
+        {
+            cout << "Назва книги не може бути порожньою.\n";
+            continue;
+        }
+
+        if (isDuplicate(titles[i]) && titles[i] != titles[i]) // не дублювати себе
+        {
+            cout << "Помилка: така книга вже існує!\n";
+            titles[i] = "";
+        }
+
+    } while (titles[i].empty());
+
+    // Перевірка нового автора
+    do
+    {
+        cout << "Новий автор: ";
+        getline(cin, authors[i]);
+        if (authors[i].empty())
+            cout << "Автор не може бути порожнім.\n";
+    } while (authors[i].empty());
+
+    // Перевірка нової категорії
+    do
+    {
+        cout << "Нова категорія: ";
+        getline(cin, categories[i]);
+        if (categories[i].empty())
+            cout << "Категорія не може бути порожньою.\n";
+    } while (categories[i].empty());
+
+    // Ціна
+    do
+    {
+        cout << "Ціна: ";
+        cin >> newPrice;
+
+        if (!cin || newPrice <= 0) {
+            cin.clear();
+            while (cin.get() != '\n');
+            cout << "Ціна має бути більшою за 0! Спробуйте ще раз: ";
+            cin >> newPrice;
+        }
+
+        if (newPrice <= 0)
+        {
+            cout << "Ціна має бути більшою за 0!\n";
+        }
+
+    } while (newPrice <= 0);
+
+    // Кількість
+    do
+    {
+        cout << "Нова кількість: ";
+        cin >> quantities[i];
+        if (quantities[i] <= 0) cout << "Кількість має бути більшою за 0!\n";
+    } while (quantities[i] <= 0);
 
     cout << "Дані оновлено!\n";
 }
+
 
 void deleteBook()
 {
