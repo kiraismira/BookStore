@@ -279,6 +279,7 @@ void createReceipt()
         if (index < 1 || index > bookCount)
         {
             cout << "Невірний номер книги!\n";
+            cin.ignore(10000, \n);
             continue;
         }
 
@@ -289,6 +290,7 @@ void createReceipt()
         if (qty <= 0)
         {
             cout << "Невірна кількість!\n";
+            cin.ignore(10000, \n);
             continue;
         }
 
